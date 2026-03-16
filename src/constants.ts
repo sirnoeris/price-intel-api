@@ -1,0 +1,3 @@
+export const API_VERSION = "1.0.0";
+export const DATA_LAST_UPDATED = "2026-03-16";
+export const DISCLAIMER = "Prices are collected from public sources and may not reflect real-time changes. Verify pricing directly with the retailer before making purchasing decisions. Not liable for decisions made based on this data.";
