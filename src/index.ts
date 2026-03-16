@@ -5,9 +5,11 @@ import productsRoutes from "./routes/products";
 import priceHistoryRoutes from "./routes/price-history";
 import dealsRoutes from "./routes/deals";
 import compareRoutes from "./routes/compare";
+import arbitrageRoutes from "./routes/arbitrage";
 
 import { API_VERSION, DATA_LAST_UPDATED, DISCLAIMER } from "./constants";
 import { productsData } from "./data/products";
+import { regionalPricesData } from "./data/regional-prices";
 
 interface Env {
   WALLET_ADDRESS: string;
@@ -33,9 +35,10 @@ app.get("/", (c) => {
     documentation: "/api/v1/endpoints",
     x402_discovery: "/.well-known/x402.json",
     coverage: {
-      retailer: "Amazon US",
+      retailers: ["Amazon US", "Amazon Japan", "Amazon Singapore", "Amazon Australia"],
       category: "Electronics",
       products_tracked: productsData.length,
+      regions: 4,
       subcategories: ["laptops", "headphones", "smartphones", "tvs_monitors", "tablets", "wearables"],
     },
     disclaimer: DISCLAIMER,
@@ -103,6 +106,35 @@ app.get("/api/v1/endpoints", (c) => {
           asins: "Comma-separated list of 2-5 ASINs to compare",
         },
         example: "/api/v1/compare?asins=B0DFC3RHZ9,B0CX5RTTCG,B0C8PSRWFM",
+      },
+      {
+        path: "/api/v1/arbitrage/calculate",
+        method: "GET",
+        description: "Calculate cross-border arbitrage profit for a product between two Amazon regions",
+        price_usd: "0.02",
+        params: {
+          asin: "Product ASIN (required)",
+          buy_from: "Buy region: us, jp, sg, au (required)",
+          sell_in: "Sell region: us, jp, sg, au (required)",
+          platform_fee: "Override platform fee (0-1, default 0.15). Use 0 for direct sale, 0.05 for low-fee marketplace",
+        },
+        example: "/api/v1/arbitrage/calculate?asin=B0DFC3RHZ9&buy_from=us&sell_in=au&platform_fee=0.05",
+      },
+      {
+        path: "/api/v1/arbitrage/scan",
+        method: "GET",
+        description: "Scan for best cross-border arbitrage opportunities across all products and regions",
+        price_usd: "0.03",
+        params: {
+          buy_from: "Specific buy region (optional, checks all if omitted)",
+          sell_in: "Specific sell region (optional, checks all if omitted)",
+          category: "Filter by category",
+          min_margin: "Minimum margin percentage (default 5)",
+          limit: "Max results (default 10, max 50)",
+          sort: "Sort by: margin (default) or profit",
+          platform_fee: "Override platform fee (0-1, default 0.15). Use 0 for direct sale",
+        },
+        example: "/api/v1/arbitrage/scan?sell_in=au&min_margin=10&sort=profit&platform_fee=0.05",
       },
     ],
   });
@@ -180,6 +212,34 @@ app.get("/.well-known/mcp/server-card.json", (c) => {
           required: ["asins"],
         },
       },
+      {
+        name: "calculate_arbitrage",
+        description: "Calculate cross-border arbitrage profit for a product. Shows buy price, sell price, shipping, duties, taxes, platform fees, and net profit.",
+        inputSchema: {
+          type: "object",
+          properties: {
+            asin: { type: "string", description: "Product ASIN" },
+            buy_from: { type: "string", description: "Buy region: us, jp, sg, au" },
+            sell_in: { type: "string", description: "Sell region: us, jp, sg, au" },
+            platform_fee: { type: "number", description: "Override platform fee 0-1 (default 0.15). Use 0 for direct sale, 0.05 for low-fee marketplace" },
+          },
+          required: ["asin", "buy_from", "sell_in"],
+        },
+      },
+      {
+        name: "scan_arbitrage",
+        description: "Find the best cross-border arbitrage opportunities across Amazon US, Japan, Singapore, and Australia. Returns profitable flips with full cost breakdown.",
+        inputSchema: {
+          type: "object",
+          properties: {
+            buy_from: { type: "string", description: "Buy region: us, jp, sg, au (optional)" },
+            sell_in: { type: "string", description: "Sell region: us, jp, sg, au (optional)" },
+            category: { type: "string", description: "Category filter (optional)" },
+            min_margin: { type: "number", description: "Minimum profit margin % (default 5)" },
+            platform_fee: { type: "number", description: "Override platform fee 0-1 (default 0.15). Use 0 for direct sale" },
+          },
+        },
+      },
     ],
     resources: [],
     prompts: [],
@@ -212,6 +272,8 @@ app.get("/.well-known/x402.json", (c) => {
     { path: "/api/v1/price-history?asin=*", method: "GET", description: "Price history and analytics for a product", maxAmountRequired: "10000", amountUSD: "0.01" },
     { path: "/api/v1/deals", method: "GET", description: "Current best deals", maxAmountRequired: "8000", amountUSD: "0.008" },
     { path: "/api/v1/compare?asins=*", method: "GET", description: "Price comparison for multiple products", maxAmountRequired: "15000", amountUSD: "0.015" },
+    { path: "/api/v1/arbitrage/calculate", method: "GET", description: "Calculate cross-border arbitrage profit", maxAmountRequired: "20000", amountUSD: "0.02" },
+    { path: "/api/v1/arbitrage/scan", method: "GET", description: "Scan for arbitrage opportunities", maxAmountRequired: "30000", amountUSD: "0.03" },
   ];
 
   return c.json({
@@ -278,5 +340,20 @@ app.use("/api/v1/compare", (c, next) => {
   return x402("0.015", desc)(c, next);
 });
 app.route("/api/v1/compare", compareRoutes);
+
+// Arbitrage — dynamic pricing based on sub-path
+app.use("/api/v1/arbitrage/*", (c, next) => {
+  const path = new URL(c.req.url).pathname;
+  if (path.includes("/scan")) {
+    const category = c.req.query("category");
+    const desc = category ? `Arbitrage scan for ${category}` : "Cross-border arbitrage scan";
+    return x402("0.03", desc)(c, next);
+  }
+  // Default: calculate
+  const asin = c.req.query("asin");
+  const desc = asin ? `Arbitrage calculation for ${asin}` : "Arbitrage calculation";
+  return x402("0.02", desc)(c, next);
+});
+app.route("/api/v1/arbitrage", arbitrageRoutes);
 
 export default app;
