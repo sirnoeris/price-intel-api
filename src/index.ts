@@ -39,7 +39,7 @@ app.get("/", (c) => {
       category: "Electronics",
       products_tracked: productsData.length,
       regions: 4,
-      subcategories: ["laptops", "headphones", "smartphones", "tvs_monitors", "tablets", "wearables"],
+      subcategories: ["laptops", "headphones", "smartphones", "tvs_monitors", "tablets", "wearables", "cameras", "gaming", "storage_networking", "smart_home"],
     },
     disclaimer: DISCLAIMER,
   });
@@ -57,6 +57,22 @@ app.get("/api/v1/endpoints", (c) => {
     },
     endpoints: [
       {
+        path: "/api/v1/sample/products",
+        method: "GET",
+        description: "FREE — Sample products (3 per category, limited fields). Try before you buy.",
+        price_usd: "0 (free)",
+        params: {},
+        example: "/api/v1/sample/products",
+      },
+      {
+        path: "/api/v1/sample/arbitrage",
+        method: "GET",
+        description: "FREE — Preview top arbitrage opportunities (raw price spreads only, no cost analysis).",
+        price_usd: "0 (free)",
+        params: {},
+        example: "/api/v1/sample/arbitrage",
+      },
+      {
         path: "/api/v1/products",
         method: "GET",
         description: "Search and filter electronics products by ASIN, keyword, category, brand, price range",
@@ -65,7 +81,7 @@ app.get("/api/v1/endpoints", (c) => {
         params: {
           asin: "Exact ASIN lookup (e.g., 'B0DFC3RHZ9')",
           q: "Text search across title, brand, category",
-          category: "Filter by category: laptops, headphones, smartphones, tvs_monitors, tablets, wearables",
+          category: "Filter by category: laptops, headphones, smartphones, tvs_monitors, tablets, wearables, cameras, gaming, storage_networking, smart_home",
           brand: "Filter by brand (e.g., 'Apple', 'Samsung', 'Sony')",
           min_price: "Minimum price in USD",
           max_price: "Maximum price in USD",
@@ -159,7 +175,7 @@ app.get("/.well-known/mcp/server-card.json", (c) => {
           type: "object",
           properties: {
             q: { type: "string", description: "Text search query" },
-            category: { type: "string", description: "Category: laptops, headphones, smartphones, tvs_monitors, tablets, wearables" },
+            category: { type: "string", description: "Category: laptops, headphones, smartphones, tvs_monitors, tablets, wearables, cameras, gaming, storage_networking, smart_home" },
             brand: { type: "string", description: "Brand name (e.g., Apple, Samsung, Sony)" },
             min_price: { type: "number", description: "Minimum price in USD" },
             max_price: { type: "number", description: "Maximum price in USD" },
@@ -295,6 +311,94 @@ app.get("/.well-known/x402.json", (c) => {
         mimeType: "application/json",
       },
     })),
+  });
+});
+
+// ─── Free sample endpoints (no x402 payment required) ────────────────────────
+
+// Sample products — 3 per category, limited fields, no price history
+app.get("/api/v1/sample/products", (c) => {
+  const categories = [...new Set(productsData.map((p) => p.category))];
+  const samples = categories.flatMap((cat) => {
+    const catProducts = productsData.filter((p) => p.category === cat);
+    return catProducts.slice(0, 3).map((p) => ({
+      asin: p.asin,
+      title: p.title,
+      brand: p.brand,
+      category: p.category,
+      current_price: p.current_price,
+      currency: p.currency,
+      in_stock: p.in_stock,
+      rating: p.rating,
+    }));
+  });
+  return c.json({
+    meta: {
+      endpoint: "/api/v1/sample/products",
+      price_usd: "FREE",
+      note: "Sample data — 3 products per category with limited fields. Use paid /api/v1/products for full data including price history, specs, and deals.",
+      total_products_available: productsData.length,
+      categories,
+      data_last_updated: DATA_LAST_UPDATED,
+    },
+    data: samples,
+  });
+});
+
+// Sample arbitrage — top 3 opportunities, limited details
+app.get("/api/v1/sample/arbitrage", (c) => {
+  const VALID_REGIONS = ["us", "jp", "sg", "au"] as const;
+  type Region = (typeof VALID_REGIONS)[number];
+
+  function getRP(asin: string, region: Region) {
+    return regionalPricesData.find((rp) => rp.asin === asin && rp.region === region);
+  }
+
+  interface SampleOpp {
+    product: string;
+    buy_region: string;
+    sell_region: string;
+    buy_price_usd: number;
+    sell_price_usd: number;
+    estimated_margin_pct: number;
+    note: string;
+  }
+
+  const opps: SampleOpp[] = [];
+  for (const product of productsData) {
+    for (const buyFrom of VALID_REGIONS) {
+      for (const sellIn of VALID_REGIONS) {
+        if (buyFrom === sellIn) continue;
+        const bp = getRP(product.asin, buyFrom);
+        const sp = getRP(product.asin, sellIn);
+        if (!bp || !sp || !bp.in_stock || !sp.in_stock) continue;
+        const rawSpread = ((sp.usd_price - bp.usd_price) / bp.usd_price) * 100;
+        if (rawSpread > 40) {
+          opps.push({
+            product: product.title.slice(0, 60) + (product.title.length > 60 ? "..." : ""),
+            buy_region: buyFrom,
+            sell_region: sellIn,
+            buy_price_usd: bp.usd_price,
+            sell_price_usd: sp.usd_price,
+            estimated_margin_pct: Math.round(rawSpread * 10) / 10,
+            note: "Raw price spread only. Use paid /api/v1/arbitrage/calculate for full cost breakdown including shipping, duties, taxes, and platform fees.",
+          });
+        }
+      }
+    }
+  }
+  opps.sort((a, b) => b.estimated_margin_pct - a.estimated_margin_pct);
+
+  return c.json({
+    meta: {
+      endpoint: "/api/v1/sample/arbitrage",
+      price_usd: "FREE",
+      note: "Preview of arbitrage opportunities — raw price spreads only (no cost analysis). Use paid endpoints for full P&L with shipping, duties, taxes.",
+      total_opportunities_available: opps.length,
+      showing: Math.min(3, opps.length),
+      data_last_updated: DATA_LAST_UPDATED,
+    },
+    data: opps.slice(0, 3),
   });
 });
 

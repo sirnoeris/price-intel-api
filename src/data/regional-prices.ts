@@ -417,4 +417,398 @@ export const regionalPricesData: RegionalPrice[] = [
   p("B0DGKLMABC", "jp", "Amazon Japan", "JPY", 37200, RATES.JPY, false),  // out of stock
   p("B0DGKLMABC", "sg", "Amazon Singapore", "SGD", 340.00, RATES.SGD, true),  // ~$251 (+1%)
   p("B0DGKLMABC", "au", "Amazon Australia", "AUD", 632.00, RATES.AUD, true),  // ~$407 (+63%) Australia Tax
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // CAMERAS (10 products) — NEW CATEGORY
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // B0EX1CAM01 — Sony A7C II — US $1798
+  p("B0EX1CAM01", "us", "Amazon US", "USD", 1798, RATES.USD, true),
+  p("B0EX1CAM01", "jp", "Amazon Japan", "JPY", 186800, RATES.JPY, true),   // ~$1246 (-31%) Sony home market
+  p("B0EX1CAM01", "sg", "Amazon Singapore", "SGD", 2148.00, RATES.SGD, true),  // ~$1591 (-12%) Sony SG
+  p("B0EX1CAM01", "au", "Amazon Australia", "AUD", 4727.00, RATES.AUD, true),  // ~$3049 (+70%) AU Tax
+
+  // B0EX1CAM02 — Sony A7R V — US $3498
+  p("B0EX1CAM02", "us", "Amazon US", "USD", 3498, RATES.USD, true),
+  p("B0EX1CAM02", "jp", "Amazon Japan", "JPY", 369800, RATES.JPY, true),   // ~$2466 (-29%) Sony home market
+  p("B0EX1CAM02", "sg", "Amazon Singapore", "SGD", 4150.00, RATES.SGD, true),  // ~$3075 (-12%) Sony SG
+  p("B0EX1CAM02", "au", "Amazon Australia", "AUD", 9185.00, RATES.AUD, true),  // ~$5924 (+69%) AU Tax
+
+  // B0EX1CAM03 — Canon EOS R8 — US $1299
+  p("B0EX1CAM03", "us", "Amazon US", "USD", 1299, RATES.USD, true),
+  p("B0EX1CAM03", "jp", "Amazon Japan", "JPY", 126700, RATES.JPY, true),   // ~$845 (-35%) Canon JP home market
+  p("B0EX1CAM03", "sg", "Amazon Singapore", "SGD", 1537.00, RATES.SGD, true),  // ~$1138 (-12%) Canon SG
+  p("B0EX1CAM03", "au", "Amazon Australia", "AUD", 3472.00, RATES.AUD, true),  // ~$2239 (+72%) AU Tax
+
+  // B0EX1CAM04 — Canon EOS R5 Mark II — US $3899
+  p("B0EX1CAM04", "us", "Amazon US", "USD", 3899, RATES.USD, true),
+  p("B0EX1CAM04", "jp", "Amazon Japan", "JPY", 398900, RATES.JPY, true),   // ~$2660 (-32%) Canon JP home market
+  p("B0EX1CAM04", "sg", "Amazon Singapore", "SGD", 4653.00, RATES.SGD, false),  // out of stock
+  p("B0EX1CAM04", "au", "Amazon Australia", "AUD", 10098.00, RATES.AUD, true),  // ~$6513 (+67%) AU Tax
+
+  // B0EX1CAM05 — Nikon Z6 III — US $2496
+  p("B0EX1CAM05", "us", "Amazon US", "USD", 2496, RATES.USD, true),
+  p("B0EX1CAM05", "jp", "Amazon Japan", "JPY", 249600, RATES.JPY, true),   // ~$1664 (-33%) Nikon JP home market
+  p("B0EX1CAM05", "sg", "Amazon Singapore", "SGD", 2928.00, RATES.SGD, true),  // ~$2169 (-13%) Nikon SG
+  p("B0EX1CAM05", "au", "Amazon Australia", "AUD", 6581.00, RATES.AUD, true),  // ~$4244 (+70%) AU Tax
+
+  // B0EX1CAM06 — Fujifilm X-T5 — US $1699
+  p("B0EX1CAM06", "us", "Amazon US", "USD", 1699, RATES.USD, true),
+  p("B0EX1CAM06", "jp", "Amazon Japan", "JPY", 170900, RATES.JPY, true),   // ~$1139 (-33%) Fuji JP home market
+  p("B0EX1CAM06", "sg", "Amazon Singapore", "SGD", 1996.00, RATES.SGD, true),  // ~$1479 (-13%) Fuji SG
+  p("B0EX1CAM06", "au", "Amazon Australia", "AUD", 4527.00, RATES.AUD, true),  // ~$2920 (+72%) AU Tax
+
+  // B0EX1CAM07 — Sony ZV-E10 II — US $898
+  p("B0EX1CAM07", "us", "Amazon US", "USD", 898, RATES.USD, true),
+  p("B0EX1CAM07", "jp", "Amazon Japan", "JPY", 92700, RATES.JPY, true),   // ~$618 (-31%) Sony home market
+  p("B0EX1CAM07", "sg", "Amazon Singapore", "SGD", 1070.00, RATES.SGD, true),  // ~$792 (-12%) Sony SG
+  p("B0EX1CAM07", "au", "Amazon Australia", "AUD", 2382.00, RATES.AUD, true),  // ~$1536 (+71%) AU Tax
+
+  // B0EX1CAM08 — GoPro HERO13 Black — US $349
+  p("B0EX1CAM08", "us", "Amazon US", "USD", 349, RATES.USD, true),
+  p("B0EX1CAM08", "jp", "Amazon Japan", "JPY", 55800, RATES.JPY, true),   // ~$372 (+7%) Western brand JP
+  p("B0EX1CAM08", "sg", "Amazon Singapore", "SGD", 458.00, RATES.SGD, true),  // ~$339 (-3%)
+  p("B0EX1CAM08", "au", "Amazon Australia", "AUD", 896.00, RATES.AUD, true),  // ~$578 (+66%) AU Tax
+
+  // B0EX1CAM09 — DJI Osmo Action 5 Pro — US $349
+  p("B0EX1CAM09", "us", "Amazon US", "USD", 349, RATES.USD, false),
+  p("B0EX1CAM09", "jp", "Amazon Japan", "JPY", 53900, RATES.JPY, true),   // ~$359 (+3%)
+  p("B0EX1CAM09", "sg", "Amazon Singapore", "SGD", 449.00, RATES.SGD, true),  // ~$332 (-5%)
+  p("B0EX1CAM09", "au", "Amazon Australia", "AUD", 879.00, RATES.AUD, true),  // ~$567 (+62%) AU Tax
+
+  // B0EX1CAM10 — Insta360 X4 — US $499
+  p("B0EX1CAM10", "us", "Amazon US", "USD", 499, RATES.USD, true),
+  p("B0EX1CAM10", "jp", "Amazon Japan", "JPY", 79200, RATES.JPY, true),   // ~$528 (+6%)
+  p("B0EX1CAM10", "sg", "Amazon Singapore", "SGD", 648.00, RATES.SGD, true),  // ~$480 (-4%)
+  p("B0EX1CAM10", "au", "Amazon Australia", "AUD", 1273.00, RATES.AUD, false),  // out of stock
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // GAMING CONSOLES & ACCESSORIES (10 products) — NEW CATEGORY
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // B0EX1GAM01 — PS5 Pro — US $699
+  p("B0EX1GAM01", "us", "Amazon US", "USD", 699, RATES.USD, true),
+  p("B0EX1GAM01", "jp", "Amazon Japan", "JPY", 72400, RATES.JPY, true),   // ~$482 (-31%) Sony home market
+  p("B0EX1GAM01", "sg", "Amazon Singapore", "SGD", 832.00, RATES.SGD, true),  // ~$616 (-12%) Sony SG
+  p("B0EX1GAM01", "au", "Amazon Australia", "AUD", 1847.00, RATES.AUD, true),  // ~$1191 (+70%) AU Tax
+
+  // B0EX1GAM02 — Xbox Series X — US $499
+  p("B0EX1GAM02", "us", "Amazon US", "USD", 499, RATES.USD, true),
+  p("B0EX1GAM02", "jp", "Amazon Japan", "JPY", 81700, RATES.JPY, true),   // ~$545 (+9%) Western brand JP
+  p("B0EX1GAM02", "sg", "Amazon Singapore", "SGD", 662.00, RATES.SGD, true),  // ~$490 (-2%)
+  p("B0EX1GAM02", "au", "Amazon Australia", "AUD", 1282.00, RATES.AUD, true),  // ~$827 (+66%) AU Tax
+
+  // B0EX1GAM03 — Nintendo Switch 2 — US $449
+  p("B0EX1GAM03", "us", "Amazon US", "USD", 449, RATES.USD, true),
+  p("B0EX1GAM03", "jp", "Amazon Japan", "JPY", 52500, RATES.JPY, true),   // ~$350 (-22%) Nintendo JP home market
+  p("B0EX1GAM03", "sg", "Amazon Singapore", "SGD", 574.00, RATES.SGD, true),  // ~$425 (-5%) Nintendo SG
+  p("B0EX1GAM03", "au", "Amazon Australia", "AUD", 1122.00, RATES.AUD, true),  // ~$723 (+61%) AU Tax
+
+  // B0EX1GAM04 — Steam Deck OLED 1TB — US $649
+  p("B0EX1GAM04", "us", "Amazon US", "USD", 649, RATES.USD, false),
+  p("B0EX1GAM04", "jp", "Amazon Japan", "JPY", 107200, RATES.JPY, true),   // ~$715 (+10%) Valve JP
+  p("B0EX1GAM04", "sg", "Amazon Singapore", "SGD", 872.00, RATES.SGD, false),  // out of stock
+  p("B0EX1GAM04", "au", "Amazon Australia", "AUD", 1693.00, RATES.AUD, true),  // ~$1091 (+68%) AU Tax
+
+  // B0EX1GAM05 — PS5 DualSense Edge — US $199
+  p("B0EX1GAM05", "us", "Amazon US", "USD", 199, RATES.USD, true),
+  p("B0EX1GAM05", "jp", "Amazon Japan", "JPY", 20400, RATES.JPY, true),   // ~$136 (-32%) Sony home market
+  p("B0EX1GAM05", "sg", "Amazon Singapore", "SGD", 237.00, RATES.SGD, true),  // ~$175 (-12%) Sony SG
+  p("B0EX1GAM05", "au", "Amazon Australia", "AUD", 526.00, RATES.AUD, true),  // ~$339 (+70%) AU Tax
+
+  // B0EX1GAM06 — Xbox Elite Series 2 Core — US $129
+  p("B0EX1GAM06", "us", "Amazon US", "USD", 129, RATES.USD, true),
+  p("B0EX1GAM06", "jp", "Amazon Japan", "JPY", 21300, RATES.JPY, true),   // ~$142 (+10%) Western brand JP
+  p("B0EX1GAM06", "sg", "Amazon Singapore", "SGD", 170.00, RATES.SGD, true),  // ~$125 (-3%)
+  p("B0EX1GAM06", "au", "Amazon Australia", "AUD", 337.00, RATES.AUD, true),  // ~$217 (+69%) AU Tax
+
+  // B0EX1GAM07 — Meta Quest 3S — US $299
+  p("B0EX1GAM07", "us", "Amazon US", "USD", 299, RATES.USD, true),
+  p("B0EX1GAM07", "jp", "Amazon Japan", "JPY", 48100, RATES.JPY, true),   // ~$320 (+7%) Western brand JP
+  p("B0EX1GAM07", "sg", "Amazon Singapore", "SGD", 399.00, RATES.SGD, true),  // ~$295 (-1%)
+  p("B0EX1GAM07", "au", "Amazon Australia", "AUD", 773.00, RATES.AUD, true),  // ~$498 (+67%) AU Tax
+
+  // B0EX1GAM08 — PlayStation Portal — US $199
+  p("B0EX1GAM08", "us", "Amazon US", "USD", 199, RATES.USD, true),
+  p("B0EX1GAM08", "jp", "Amazon Japan", "JPY", 20800, RATES.JPY, true),   // ~$138 (-31%) Sony home market
+  p("B0EX1GAM08", "sg", "Amazon Singapore", "SGD", 238.00, RATES.SGD, true),  // ~$176 (-12%) Sony SG
+  p("B0EX1GAM08", "au", "Amazon Australia", "AUD", 519.00, RATES.AUD, false),  // out of stock
+
+  // B0EX1GAM09 — Razer Kishi Ultra — US $149
+  p("B0EX1GAM09", "us", "Amazon US", "USD", 149, RATES.USD, true),
+  p("B0EX1GAM09", "jp", "Amazon Japan", "JPY", 24100, RATES.JPY, true),   // ~$160 (+8%) Western brand JP
+  p("B0EX1GAM09", "sg", "Amazon Singapore", "SGD", 199.00, RATES.SGD, true),  // ~$147 (-1%)
+  p("B0EX1GAM09", "au", "Amazon Australia", "AUD", 383.00, RATES.AUD, true),  // ~$247 (+66%) AU Tax
+
+  // B0EX1GAM10 — 8BitDo Ultimate Controller — US $69
+  p("B0EX1GAM10", "us", "Amazon US", "USD", 69, RATES.USD, true),
+  p("B0EX1GAM10", "jp", "Amazon Japan", "JPY", 10200, RATES.JPY, true),   // ~$68 (-1%)
+  p("B0EX1GAM10", "sg", "Amazon Singapore", "SGD", 91.00, RATES.SGD, true),  // ~$67 (-3%)
+  p("B0EX1GAM10", "au", "Amazon Australia", "AUD", 174.00, RATES.AUD, true),  // ~$112 (+63%) AU Tax
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // STORAGE & NETWORKING (10 products) — NEW CATEGORY
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // B0EX1STR01 — Samsung 990 Pro 4TB — US $299
+  p("B0EX1STR01", "us", "Amazon US", "USD", 299, RATES.USD, true),
+  p("B0EX1STR01", "jp", "Amazon Japan", "JPY", 57100, RATES.JPY, true),   // ~$380 (+27%) Samsung JP markup
+  p("B0EX1STR01", "sg", "Amazon Singapore", "SGD", 242.00, RATES.SGD, true),  // ~$179 (-40%) SG HQ pricing
+  p("B0EX1STR01", "au", "Amazon Australia", "AUD", 789.00, RATES.AUD, true),  // ~$509 (+70%) AU Tax
+
+  // B0EX1STR02 — WD Black SN850X 4TB — US $279
+  p("B0EX1STR02", "us", "Amazon US", "USD", 279, RATES.USD, true),
+  p("B0EX1STR02", "jp", "Amazon Japan", "JPY", 44500, RATES.JPY, true),   // ~$296 (+6%)
+  p("B0EX1STR02", "sg", "Amazon Singapore", "SGD", 371.00, RATES.SGD, true),  // ~$274 (-2%)
+  p("B0EX1STR02", "au", "Amazon Australia", "AUD", 718.00, RATES.AUD, true),  // ~$463 (+66%) AU Tax
+
+  // B0EX1STR03 — Samsung T9 Portable 4TB — US $299
+  p("B0EX1STR03", "us", "Amazon US", "USD", 299, RATES.USD, true),
+  p("B0EX1STR03", "jp", "Amazon Japan", "JPY", 55800, RATES.JPY, true),   // ~$372 (+24%) Samsung JP markup
+  p("B0EX1STR03", "sg", "Amazon Singapore", "SGD", 248.00, RATES.SGD, true),  // ~$183 (-39%) SG HQ pricing
+  p("B0EX1STR03", "au", "Amazon Australia", "AUD", 798.00, RATES.AUD, true),  // ~$514 (+72%) AU Tax
+
+  // B0EX1STR04 — Seagate 18TB HDD — US $279
+  p("B0EX1STR04", "us", "Amazon US", "USD", 279, RATES.USD, true),
+  p("B0EX1STR04", "jp", "Amazon Japan", "JPY", 45500, RATES.JPY, true),   // ~$303 (+9%)
+  p("B0EX1STR04", "sg", "Amazon Singapore", "SGD", 368.00, RATES.SGD, true),  // ~$272 (-3%)
+  p("B0EX1STR04", "au", "Amazon Australia", "AUD", 721.00, RATES.AUD, false),  // out of stock
+
+  // B0EX1STR05 — ASUS RT-BE96U WiFi 7 Router — US $599
+  p("B0EX1STR05", "us", "Amazon US", "USD", 599, RATES.USD, true),
+  p("B0EX1STR05", "jp", "Amazon Japan", "JPY", 93200, RATES.JPY, true),   // ~$621 (+4%)
+  p("B0EX1STR05", "sg", "Amazon Singapore", "SGD", 794.00, RATES.SGD, true),  // ~$588 (-2%)
+  p("B0EX1STR05", "au", "Amazon Australia", "AUD", 1554.00, RATES.AUD, true),  // ~$1002 (+67%) AU Tax
+
+  // B0EX1STR06 — TP-Link Deco BE85 Mesh — US $699
+  p("B0EX1STR06", "us", "Amazon US", "USD", 699, RATES.USD, true),
+  p("B0EX1STR06", "jp", "Amazon Japan", "JPY", 112300, RATES.JPY, true),   // ~$749 (+7%)
+  p("B0EX1STR06", "sg", "Amazon Singapore", "SGD", 926.00, RATES.SGD, true),  // ~$686 (-2%)
+  p("B0EX1STR06", "au", "Amazon Australia", "AUD", 1812.00, RATES.AUD, true),  // ~$1168 (+67%) AU Tax
+
+  // B0EX1STR07 — Synology DS224+ NAS — US $299
+  p("B0EX1STR07", "us", "Amazon US", "USD", 299, RATES.USD, true),
+  p("B0EX1STR07", "jp", "Amazon Japan", "JPY", 48800, RATES.JPY, true),   // ~$325 (+9%)
+  p("B0EX1STR07", "sg", "Amazon Singapore", "SGD", 393.00, RATES.SGD, true),  // ~$291 (-3%)
+  p("B0EX1STR07", "au", "Amazon Australia", "AUD", 774.00, RATES.AUD, true),  // ~$499 (+67%) AU Tax
+
+  // B0EX1STR08 — UniFi Dream Machine Pro — US $379
+  p("B0EX1STR08", "us", "Amazon US", "USD", 379, RATES.USD, false),
+  p("B0EX1STR08", "jp", "Amazon Japan", "JPY", 62100, RATES.JPY, true),   // ~$414 (+9%)
+  p("B0EX1STR08", "sg", "Amazon Singapore", "SGD", 504.00, RATES.SGD, true),  // ~$373 (-2%)
+  p("B0EX1STR08", "au", "Amazon Australia", "AUD", 978.00, RATES.AUD, true),  // ~$630 (+66%) AU Tax
+
+  // B0EX1STR09 — Apple AirTag 4-Pack — US $99
+  p("B0EX1STR09", "us", "Amazon US", "USD", 99, RATES.USD, true),
+  p("B0EX1STR09", "jp", "Amazon Japan", "JPY", 15200, RATES.JPY, true),   // ~$101 (+2%) Apple JP
+  p("B0EX1STR09", "sg", "Amazon Singapore", "SGD", 138.00, RATES.SGD, true),  // ~$102 (+3%) Apple SG
+  p("B0EX1STR09", "au", "Amazon Australia", "AUD", 248.00, RATES.AUD, true),  // ~$159 (+61%) AU Tax
+
+  // B0EX1STR10 — Samsung SmartTag2 4-Pack — US $79
+  p("B0EX1STR10", "us", "Amazon US", "USD", 79, RATES.USD, true),
+  p("B0EX1STR10", "jp", "Amazon Japan", "JPY", 15200, RATES.JPY, true),   // ~$101 (+28%) Samsung JP markup
+  p("B0EX1STR10", "sg", "Amazon Singapore", "SGD", 63.00, RATES.SGD, true),  // ~$46 (-41%) SG HQ pricing
+  p("B0EX1STR10", "au", "Amazon Australia", "AUD", 212.00, RATES.AUD, true),  // ~$136 (+73%) AU Tax
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // SMART HOME (10 products) — NEW CATEGORY
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // B0EX1SMH01 — Apple HomePod 2nd Gen — US $299
+  p("B0EX1SMH01", "us", "Amazon US", "USD", 299, RATES.USD, true),
+  p("B0EX1SMH01", "jp", "Amazon Japan", "JPY", 46700, RATES.JPY, true),   // ~$311 (+4%) Apple JP
+  p("B0EX1SMH01", "sg", "Amazon Singapore", "SGD", 419.00, RATES.SGD, true),  // ~$310 (+4%) Apple SG
+  p("B0EX1SMH01", "au", "Amazon Australia", "AUD", 748.00, RATES.AUD, true),  // ~$482 (+61%) AU Tax
+
+  // B0EX1SMH02 — Amazon Echo Show 15 — US $249
+  p("B0EX1SMH02", "us", "Amazon US", "USD", 249, RATES.USD, true),
+  p("B0EX1SMH02", "jp", "Amazon Japan", "JPY", 40100, RATES.JPY, true),   // ~$267 (+7%) Amazon JP
+  p("B0EX1SMH02", "sg", "Amazon Singapore", "SGD", 336.00, RATES.SGD, true),  // ~$248 (0%)
+  p("B0EX1SMH02", "au", "Amazon Australia", "AUD", 643.00, RATES.AUD, true),  // ~$414 (+66%) AU Tax
+
+  // B0EX1SMH03 — Google Nest Hub Max — US $229
+  p("B0EX1SMH03", "us", "Amazon US", "USD", 229, RATES.USD, true),
+  p("B0EX1SMH03", "jp", "Amazon Japan", "JPY", 37400, RATES.JPY, true),   // ~$249 (+9%)
+  p("B0EX1SMH03", "sg", "Amazon Singapore", "SGD", 305.00, RATES.SGD, true),  // ~$226 (-1%)
+  p("B0EX1SMH03", "au", "Amazon Australia", "AUD", 586.00, RATES.AUD, true),  // ~$377 (+65%) AU Tax
+
+  // B0EX1SMH04 — Sonos Era 300 — US $449
+  p("B0EX1SMH04", "us", "Amazon US", "USD", 449, RATES.USD, true),
+  p("B0EX1SMH04", "jp", "Amazon Japan", "JPY", 73800, RATES.JPY, true),   // ~$492 (+10%) Western brand JP
+  p("B0EX1SMH04", "sg", "Amazon Singapore", "SGD", 589.00, RATES.SGD, true),  // ~$436 (-3%)
+  p("B0EX1SMH04", "au", "Amazon Australia", "AUD", 1163.00, RATES.AUD, true),  // ~$750 (+67%) AU Tax
+
+  // B0EX1SMH05 — Dyson Purifier Big Quiet — US $949
+  p("B0EX1SMH05", "us", "Amazon US", "USD", 949, RATES.USD, true),
+  p("B0EX1SMH05", "jp", "Amazon Japan", "JPY", 153700, RATES.JPY, true),   // ~$1025 (+8%) Dyson JP
+  p("B0EX1SMH05", "sg", "Amazon Singapore", "SGD", 1255.00, RATES.SGD, true),  // ~$929 (-2%) Dyson SG
+  p("B0EX1SMH05", "au", "Amazon Australia", "AUD", 2418.00, RATES.AUD, true),  // ~$1559 (+64%) AU Tax
+
+  // B0EX1SMH06 — iRobot Roomba j9+ — US $799
+  p("B0EX1SMH06", "us", "Amazon US", "USD", 799, RATES.USD, true),
+  p("B0EX1SMH06", "jp", "Amazon Japan", "JPY", 131800, RATES.JPY, true),   // ~$879 (+10%) iRobot JP
+  p("B0EX1SMH06", "sg", "Amazon Singapore", "SGD", 1058.00, RATES.SGD, true),  // ~$783 (-2%) iRobot SG
+  p("B0EX1SMH06", "au", "Amazon Australia", "AUD", 2052.00, RATES.AUD, false),  // out of stock
+
+  // B0EX1SMH07 — Ecovacs Deebot X2 Omni — US $999
+  p("B0EX1SMH07", "us", "Amazon US", "USD", 999, RATES.USD, false),
+  p("B0EX1SMH07", "jp", "Amazon Japan", "JPY", 137800, RATES.JPY, true),   // ~$919 (-8%) Chinese brand JP discount
+  p("B0EX1SMH07", "sg", "Amazon Singapore", "SGD", 1094.00, RATES.SGD, true),  // ~$810 (-19%) APAC distribution
+  p("B0EX1SMH07", "au", "Amazon Australia", "AUD", 2489.00, RATES.AUD, true),  // ~$1605 (+61%) AU Tax
+
+  // B0EX1SMH08 — Ring Video Doorbell Pro 2 — US $249
+  p("B0EX1SMH08", "us", "Amazon US", "USD", 249, RATES.USD, true),
+  p("B0EX1SMH08", "jp", "Amazon Japan", "JPY", 40800, RATES.JPY, true),   // ~$272 (+9%) Western brand JP
+  p("B0EX1SMH08", "sg", "Amazon Singapore", "SGD", 332.00, RATES.SGD, true),  // ~$246 (-1%)
+  p("B0EX1SMH08", "au", "Amazon Australia", "AUD", 637.00, RATES.AUD, true),  // ~$410 (+65%) AU Tax
+
+  // B0EX1SMH09 — Arlo Pro 5S 3-Camera Kit — US $499
+  p("B0EX1SMH09", "us", "Amazon US", "USD", 499, RATES.USD, true),
+  p("B0EX1SMH09", "jp", "Amazon Japan", "JPY", 82200, RATES.JPY, true),   // ~$548 (+10%)
+  p("B0EX1SMH09", "sg", "Amazon Singapore", "SGD", 659.00, RATES.SGD, true),  // ~$488 (-2%)
+  p("B0EX1SMH09", "au", "Amazon Australia", "AUD", 1293.00, RATES.AUD, true),  // ~$833 (+67%) AU Tax
+
+  // B0EX1SMH10 — Nanoleaf Shapes Hexagons 15-Pack — US $249
+  p("B0EX1SMH10", "us", "Amazon US", "USD", 249, RATES.USD, true),
+  p("B0EX1SMH10", "jp", "Amazon Japan", "JPY", 39800, RATES.JPY, true),   // ~$265 (+6%)
+  p("B0EX1SMH10", "sg", "Amazon Singapore", "SGD", 328.00, RATES.SGD, true),  // ~$243 (-2%)
+  p("B0EX1SMH10", "au", "Amazon Australia", "AUD", 639.00, RATES.AUD, true),  // ~$412 (+66%) AU Tax
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // LAPTOPS — EXPANSION (+4 products)
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // B0EX1LAP01 — Microsoft Surface Laptop 7 — US $1299
+  p("B0EX1LAP01", "us", "Amazon US", "USD", 1299, RATES.USD, true),
+  p("B0EX1LAP01", "jp", "Amazon Japan", "JPY", 207200, RATES.JPY, true),   // ~$1382 (+6%)
+  p("B0EX1LAP01", "sg", "Amazon Singapore", "SGD", 1719.00, RATES.SGD, true),  // ~$1273 (-2%)
+  p("B0EX1LAP01", "au", "Amazon Australia", "AUD", 3376.00, RATES.AUD, true),  // ~$2177 (+68%) AU Tax
+
+  // B0EX1LAP02 — MacBook Pro 14" M5 — US $1999
+  p("B0EX1LAP02", "us", "Amazon US", "USD", 1999, RATES.USD, true),
+  p("B0EX1LAP02", "jp", "Amazon Japan", "JPY", 302800, RATES.JPY, true),   // ~$2019 (+1%) Apple JP
+  p("B0EX1LAP02", "sg", "Amazon Singapore", "SGD", 2798.00, RATES.SGD, true),  // ~$2073 (+4%) Apple SG
+  p("B0EX1LAP02", "au", "Amazon Australia", "AUD", 5022.00, RATES.AUD, true),  // ~$3239 (+62%) AU Tax
+
+  // B0EX1LAP03 — Framework Laptop 16 — US $1399
+  p("B0EX1LAP03", "us", "Amazon US", "USD", 1399, RATES.USD, true),
+  p("B0EX1LAP03", "jp", "Amazon Japan", "JPY", 228700, RATES.JPY, true),   // ~$1525 (+9%)
+  p("B0EX1LAP03", "sg", "Amazon Singapore", "SGD", 1848.00, RATES.SGD, true),  // ~$1369 (-2%)
+  p("B0EX1LAP03", "au", "Amazon Australia", "AUD", 3621.00, RATES.AUD, false),  // out of stock
+
+  // B0EX1LAP04 — ASUS Zenbook 14 OLED — US $999
+  p("B0EX1LAP04", "us", "Amazon US", "USD", 999, RATES.USD, true),
+  p("B0EX1LAP04", "jp", "Amazon Japan", "JPY", 126500, RATES.JPY, true),   // ~$843 (-16%) ASUS JP
+  p("B0EX1LAP04", "sg", "Amazon Singapore", "SGD", 1301.00, RATES.SGD, true),  // ~$963 (-4%)
+  p("B0EX1LAP04", "au", "Amazon Australia", "AUD", 2572.00, RATES.AUD, true),  // ~$1658 (+66%) AU Tax
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // HEADPHONES — EXPANSION (+3 products)
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // B0EX1HDP01 — Apple AirPods 4 (no ANC) — US $129
+  p("B0EX1HDP01", "us", "Amazon US", "USD", 129, RATES.USD, true),
+  p("B0EX1HDP01", "jp", "Amazon Japan", "JPY", 19800, RATES.JPY, true),   // ~$132 (+2%) Apple JP
+  p("B0EX1HDP01", "sg", "Amazon Singapore", "SGD", 182.00, RATES.SGD, true),  // ~$134 (+4%) Apple SG
+  p("B0EX1HDP01", "au", "Amazon Australia", "AUD", 324.00, RATES.AUD, true),  // ~$209 (+62%) AU Tax
+
+  // B0EX1HDP02 — Jabra Elite 10 Gen 2 — US $279
+  p("B0EX1HDP02", "us", "Amazon US", "USD", 279, RATES.USD, true),
+  p("B0EX1HDP02", "jp", "Amazon Japan", "JPY", 46200, RATES.JPY, true),   // ~$308 (+10%)
+  p("B0EX1HDP02", "sg", "Amazon Singapore", "SGD", 362.00, RATES.SGD, true),  // ~$268 (-4%)
+  p("B0EX1HDP02", "au", "Amazon Australia", "AUD", 719.00, RATES.AUD, true),  // ~$463 (+66%) AU Tax
+
+  // B0EX1HDP03 — Sony LinkBuds Open — US $179
+  p("B0EX1HDP03", "us", "Amazon US", "USD", 179, RATES.USD, true),
+  p("B0EX1HDP03", "jp", "Amazon Japan", "JPY", 18400, RATES.JPY, true),   // ~$122 (-32%) Sony home market
+  p("B0EX1HDP03", "sg", "Amazon Singapore", "SGD", 213.00, RATES.SGD, true),  // ~$157 (-12%) Sony SG
+  p("B0EX1HDP03", "au", "Amazon Australia", "AUD", 468.00, RATES.AUD, true),  // ~$301 (+69%) AU Tax
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // SMARTPHONES — EXPANSION (+3 products)
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // B0EX1PHN01 — Samsung Galaxy Z Fold 7 — US $1799
+  p("B0EX1PHN01", "us", "Amazon US", "USD", 1799, RATES.USD, true),
+  p("B0EX1PHN01", "jp", "Amazon Japan", "JPY", 337900, RATES.JPY, true),   // ~$2253 (+25%) Samsung JP markup
+  p("B0EX1PHN01", "sg", "Amazon Singapore", "SGD", 1508.00, RATES.SGD, true),  // ~$1117 (-38%) SG HQ pricing
+  p("B0EX1PHN01", "au", "Amazon Australia", "AUD", 4818.00, RATES.AUD, true),  // ~$3107 (+73%) AU Tax
+
+  // B0EX1PHN02 — Google Pixel 10a — US $499
+  p("B0EX1PHN02", "us", "Amazon US", "USD", 499, RATES.USD, true),
+  p("B0EX1PHN02", "jp", "Amazon Japan", "JPY", 78200, RATES.JPY, true),   // ~$521 (+4%)
+  p("B0EX1PHN02", "sg", "Amazon Singapore", "SGD", 669.00, RATES.SGD, true),  // ~$495 (-1%)
+  p("B0EX1PHN02", "au", "Amazon Australia", "AUD", 1278.00, RATES.AUD, true),  // ~$824 (+65%) AU Tax
+
+  // B0EX1PHN03 — Nothing Phone 3 — US $599
+  p("B0EX1PHN03", "us", "Amazon US", "USD", 599, RATES.USD, false),
+  p("B0EX1PHN03", "jp", "Amazon Japan", "JPY", 97100, RATES.JPY, true),   // ~$647 (+8%)
+  p("B0EX1PHN03", "sg", "Amazon Singapore", "SGD", 793.00, RATES.SGD, true),  // ~$587 (-2%)
+  p("B0EX1PHN03", "au", "Amazon Australia", "AUD", 1524.00, RATES.AUD, true),  // ~$982 (+64%) AU Tax
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // TVs & MONITORS — EXPANSION (+3 products)
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // B0EX1TVM01 — Sony A95L 65" QD-OLED — US $2798
+  p("B0EX1TVM01", "us", "Amazon US", "USD", 2798, RATES.USD, true),
+  p("B0EX1TVM01", "jp", "Amazon Japan", "JPY", 291600, RATES.JPY, true),   // ~$1945 (-30%) Sony home market
+  p("B0EX1TVM01", "sg", "Amazon Singapore", "SGD", 3337.00, RATES.SGD, true),  // ~$2472 (-12%) Sony SG
+  p("B0EX1TVM01", "au", "Amazon Australia", "AUD", 7352.00, RATES.AUD, true),  // ~$4742 (+70%) AU Tax
+
+  // B0EX1TVM02 — BenQ MOBIUZ EX2710U — US $599
+  p("B0EX1TVM02", "us", "Amazon US", "USD", 599, RATES.USD, true),
+  p("B0EX1TVM02", "jp", "Amazon Japan", "JPY", 95900, RATES.JPY, true),   // ~$639 (+7%)
+  p("B0EX1TVM02", "sg", "Amazon Singapore", "SGD", 789.00, RATES.SGD, true),  // ~$584 (-3%)
+  p("B0EX1TVM02", "au", "Amazon Australia", "AUD", 1548.00, RATES.AUD, true),  // ~$998 (+67%) AU Tax
+
+  // B0EX1TVM03 — Samsung Odyssey G9 57" — US $1299
+  p("B0EX1TVM03", "us", "Amazon US", "USD", 1299, RATES.USD, true),
+  p("B0EX1TVM03", "jp", "Amazon Japan", "JPY", 248900, RATES.JPY, true),   // ~$1660 (+28%) Samsung JP markup
+  p("B0EX1TVM03", "sg", "Amazon Singapore", "SGD", 1089.00, RATES.SGD, true),  // ~$806 (-38%) SG HQ pricing
+  p("B0EX1TVM03", "au", "Amazon Australia", "AUD", 3487.00, RATES.AUD, false),  // out of stock
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // TABLETS — EXPANSION (+3 products)
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // B0EX1TAB01 — Samsung Galaxy Tab S10+ — US $999
+  p("B0EX1TAB01", "us", "Amazon US", "USD", 999, RATES.USD, true),
+  p("B0EX1TAB01", "jp", "Amazon Japan", "JPY", 189800, RATES.JPY, true),   // ~$1265 (+27%) Samsung JP markup
+  p("B0EX1TAB01", "sg", "Amazon Singapore", "SGD", 827.00, RATES.SGD, true),  // ~$612 (-39%) SG HQ pricing
+  p("B0EX1TAB01", "au", "Amazon Australia", "AUD", 2678.00, RATES.AUD, true),  // ~$1727 (+73%) AU Tax
+
+  // B0EX1TAB02 — Amazon Kindle Scribe 2 — US $389
+  p("B0EX1TAB02", "us", "Amazon US", "USD", 389, RATES.USD, true),
+  p("B0EX1TAB02", "jp", "Amazon Japan", "JPY", 63800, RATES.JPY, true),   // ~$425 (+9%) Amazon JP
+  p("B0EX1TAB02", "sg", "Amazon Singapore", "SGD", 518.00, RATES.SGD, true),  // ~$383 (-2%)
+  p("B0EX1TAB02", "au", "Amazon Australia", "AUD", 998.00, RATES.AUD, true),  // ~$643 (+65%) AU Tax
+
+  // B0EX1TAB03 — reMarkable Paper Pro — US $579
+  p("B0EX1TAB03", "us", "Amazon US", "USD", 579, RATES.USD, true),
+  p("B0EX1TAB03", "jp", "Amazon Japan", "JPY", 95400, RATES.JPY, true),   // ~$636 (+10%)
+  p("B0EX1TAB03", "sg", "Amazon Singapore", "SGD", 762.00, RATES.SGD, true),  // ~$564 (-3%)
+  p("B0EX1TAB03", "au", "Amazon Australia", "AUD", 1478.00, RATES.AUD, true),  // ~$953 (+65%) AU Tax
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // WEARABLES — EXPANSION (+3 products)
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // B0EX1WRB01 — Apple Watch SE 3 — US $249
+  p("B0EX1WRB01", "us", "Amazon US", "USD", 249, RATES.USD, true),
+  p("B0EX1WRB01", "jp", "Amazon Japan", "JPY", 38200, RATES.JPY, true),   // ~$254 (+2%) Apple JP
+  p("B0EX1WRB01", "sg", "Amazon Singapore", "SGD", 349.00, RATES.SGD, true),  // ~$258 (+4%) Apple SG
+  p("B0EX1WRB01", "au", "Amazon Australia", "AUD", 623.00, RATES.AUD, true),  // ~$401 (+61%) AU Tax
+
+  // B0EX1WRB02 — Samsung Galaxy Ring 2 — US $299
+  p("B0EX1WRB02", "us", "Amazon US", "USD", 299, RATES.USD, true),
+  p("B0EX1WRB02", "jp", "Amazon Japan", "JPY", 56800, RATES.JPY, true),   // ~$378 (+27%) Samsung JP markup
+  p("B0EX1WRB02", "sg", "Amazon Singapore", "SGD", 247.00, RATES.SGD, true),  // ~$183 (-39%) SG HQ pricing
+  p("B0EX1WRB02", "au", "Amazon Australia", "AUD", 798.00, RATES.AUD, true),  // ~$514 (+72%) AU Tax
+
+  // B0EX1WRB03 — Oura Ring Gen 4 — US $349
+  p("B0EX1WRB03", "us", "Amazon US", "USD", 349, RATES.USD, true),
+  p("B0EX1WRB03", "jp", "Amazon Japan", "JPY", 56800, RATES.JPY, true),   // ~$378 (+8%)
+  p("B0EX1WRB03", "sg", "Amazon Singapore", "SGD", 462.00, RATES.SGD, true),  // ~$342 (-2%)
+  p("B0EX1WRB03", "au", "Amazon Australia", "AUD", 896.00, RATES.AUD, true),  // ~$578 (+66%) AU Tax
 ];
