@@ -238,6 +238,12 @@ export const regionalPricesData: RegionalPrice[] = [
   p("B0DK4N7XV1", "sg", "Amazon Singapore", "SGD", 1094.00, RATES.SGD, true),  // ~$810 (+1%)
   p("B0DK4N7XV1", "au", "Amazon Australia", "AUD", 2017.00, RATES.AUD, true),  // ~$1300 (+63%) Australia Tax
 
+  // B0F1PH17E1 — Apple iPhone 17e — US $599
+  p("B0F1PH17E1", "us", "Amazon US", "USD", 599, RATES.USD, true),
+  p("B0F1PH17E1", "jp", "Amazon Japan", "JPY", 89800, RATES.JPY, true),  // ~$599 (parity)
+  p("B0F1PH17E1", "sg", "Amazon Singapore", "SGD", 849.00, RATES.SGD, true),  // ~$629 (+5%)
+  p("B0F1PH17E1", "au", "Amazon Australia", "AUD", 999.00, RATES.AUD, true),  // ~$645 (+8%) Australia pricing
+
   // B0DFRN2QRS — Samsung Galaxy S26 Ultra — US $1199.99
   p("B0DFRN2QRS", "us", "Amazon US", "USD", 1199.99, RATES.USD, true),
   p("B0DFRN2QRS", "jp", "Amazon Japan", "JPY", 224300, RATES.JPY, true),  // ~$1496 (+25%) Samsung JP markup
@@ -296,11 +302,11 @@ export const regionalPricesData: RegionalPrice[] = [
   p("B0CWB5FTLV", "sg", "Amazon Singapore", "SGD", 830.00, RATES.SGD, true),  // ~$615 (-31%)
   p("B0CWB5FTLV", "au", "Amazon Australia", "AUD", 2351.00, RATES.AUD, true),  // ~$1516 (+69%) Australia Tax
 
-  // B0CWB5GUMW — LG 65" C5 OLED evo 4K — US $1696.99
-  p("B0CWB5GUMW", "us", "Amazon US", "USD", 1696.99, RATES.USD, true),
-  p("B0CWB5GUMW", "jp", "Amazon Japan", "JPY", 191700, RATES.JPY, true),  // ~$1278 (-25%) Korean brand discount JP
+  // B0CWB5GUMW — LG 65" C5 OLED evo 4K — US $1399.99 (was $2699.99, 48% off spring sale)
+  p("B0CWB5GUMW", "us", "Amazon US", "USD", 1399.99, RATES.USD, true),
+  p("B0CWB5GUMW", "jp", "Amazon Japan", "JPY", 191700, RATES.JPY, true),  // ~$1278 (-9%) Korean brand discount JP
   p("B0CWB5GUMW", "sg", "Amazon Singapore", "SGD", 1840.00, RATES.SGD, false),  // out of stock
-  p("B0CWB5GUMW", "au", "Amazon Australia", "AUD", 4611.00, RATES.AUD, true),  // ~$2974 (+75%) Australia Tax
+  p("B0CWB5GUMW", "au", "Amazon Australia", "AUD", 3499.00, RATES.AUD, true),  // ~$2257 (+61%) Australia Tax
 
   // B0D7RJK3NO — Dell UltraSharp 27 4K Monitor — US $479.99
   p("B0D7RJK3NO", "us", "Amazon US", "USD", 479.99, RATES.USD, true),
@@ -740,11 +746,11 @@ export const regionalPricesData: RegionalPrice[] = [
   p("B0EX1PHN02", "sg", "Amazon Singapore", "SGD", 669.00, RATES.SGD, true),  // ~$495 (-1%)
   p("B0EX1PHN02", "au", "Amazon Australia", "AUD", 1278.00, RATES.AUD, true),  // ~$824 (+65%) AU Tax
 
-  // B0EX1PHN03 — Nothing Phone 3 — US $599
-  p("B0EX1PHN03", "us", "Amazon US", "USD", 599, RATES.USD, false),
-  p("B0EX1PHN03", "jp", "Amazon Japan", "JPY", 97100, RATES.JPY, true),   // ~$647 (+8%)
-  p("B0EX1PHN03", "sg", "Amazon Singapore", "SGD", 793.00, RATES.SGD, true),  // ~$587 (-2%)
-  p("B0EX1PHN03", "au", "Amazon Australia", "AUD", 1524.00, RATES.AUD, true),  // ~$982 (+64%) AU Tax
+  // B0EX1PHN03 — Nothing Phone 3 — US $799
+  p("B0EX1PHN03", "us", "Amazon US", "USD", 799, RATES.USD, true),
+  p("B0EX1PHN03", "jp", "Amazon Japan", "JPY", 119800, RATES.JPY, true),   // ~$799 (parity)
+  p("B0EX1PHN03", "sg", "Amazon Singapore", "SGD", 1079.00, RATES.SGD, true),  // ~$799 (parity)
+  p("B0EX1PHN03", "au", "Amazon Australia", "AUD", 1299.00, RATES.AUD, true),  // ~$838 (+5%)
 
   // ═══════════════════════════════════════════════════════════════════════════
   // TVs & MONITORS — EXPANSION (+3 products)
