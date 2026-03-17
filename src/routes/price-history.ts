@@ -1,10 +1,19 @@
 import { Hono } from "hono";
 import { productsData } from "../data/products";
 import { API_VERSION, DATA_LAST_UPDATED, DISCLAIMER } from "../constants";
+import { calculateProductConfidence, confidenceForTier } from "../utils/confidence";
 
-const priceHistory = new Hono();
+interface Env {
+  WALLET_ADDRESS: string;
+  X402_NETWORK: string;
+  USDC_CONTRACT: string;
+  FACILITATOR_URL: string;
+}
+
+const priceHistory = new Hono<{ Bindings: Env; Variables: { tier: string } }>();
 
 priceHistory.get("/", (c) => {
+  const tier = c.get("tier") || "basic";
   const asin = c.req.query("asin")?.toUpperCase();
 
   if (!asin) {
@@ -56,31 +65,61 @@ priceHistory.get("/", (c) => {
     else if (changePct > 3) trend = "rising";
   }
 
+  // Confidence
+  const conf = calculateProductConfidence(product);
+
+  // Volatility: standard deviation of prices as a 0-100 score
+  const mean = prices.reduce((s, p) => s + p, 0) / prices.length;
+  const variance = prices.reduce((s, p) => s + (p - mean) ** 2, 0) / prices.length;
+  const stdDev = Math.sqrt(variance);
+  const volatilityScore = Math.min(100, Math.round((stdDev / mean) * 500));
+
+  // Predicted direction
+  let predictedDirection: "likely_up" | "likely_down" | "stable" = "stable";
+  if (trend === "rising") predictedDirection = "likely_up";
+  else if (trend === "declining") predictedDirection = "likely_down";
+
+  // Optimal buy window
+  let optimalBuyWindow = "Current price is near average — no urgency";
+  if (currentVsAvg < -5) optimalBuyWindow = "Price is below average — good time to buy now";
+  else if (currentVsAvg > 5) optimalBuyWindow = "Price is above average — consider waiting for a dip";
+  else if (trend === "declining") optimalBuyWindow = "Price trending down — wait for stabilization";
+
+  const data: Record<string, unknown> = {
+    asin: product.asin,
+    title: product.title,
+    current_price: product.current_price,
+    price_history: product.price_history,
+    confidence: confidenceForTier(conf, tier),
+    analytics: {
+      lowest_price: lowestPrice,
+      lowest_date: lowestDate,
+      highest_price: highestPrice,
+      highest_date: highestDate,
+      avg_price_30d: Math.round(avg30d * 100) / 100,
+      avg_price_90d: Math.round(avg90d * 100) / 100,
+      price_trend: trend,
+      current_vs_avg: Math.round(currentVsAvg * 10) / 10,
+      is_good_deal: product.current_price < avg90d,
+    },
+  };
+
+  if (tier === "pro") {
+    data["volatility_score"] = volatilityScore;
+    data["predicted_direction"] = predictedDirection;
+    data["optimal_buy_window"] = optimalBuyWindow;
+  }
+
   return c.json({
     meta: {
       endpoint: "/api/v1/price-history",
-      price_usd: "0.01",
+      tier,
+      price_usd: tier === "pro" ? "0.025" : "0.01",
       disclaimer: DISCLAIMER,
       data_version: API_VERSION,
       data_last_updated: DATA_LAST_UPDATED,
     },
-    data: {
-      asin: product.asin,
-      title: product.title,
-      current_price: product.current_price,
-      price_history: product.price_history,
-      analytics: {
-        lowest_price: lowestPrice,
-        lowest_date: lowestDate,
-        highest_price: highestPrice,
-        highest_date: highestDate,
-        avg_price_30d: Math.round(avg30d * 100) / 100,
-        avg_price_90d: Math.round(avg90d * 100) / 100,
-        price_trend: trend,
-        current_vs_avg: Math.round(currentVsAvg * 10) / 10,
-        is_good_deal: product.current_price < avg90d,
-      },
-    },
+    data,
   });
 });
 

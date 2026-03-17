@@ -3,8 +3,16 @@ import { regionalPricesData } from "../data/regional-prices";
 import { tradeRoutes } from "../data/trade-costs";
 import { productsData } from "../data/products";
 import { API_VERSION, DATA_LAST_UPDATED, DISCLAIMER } from "../constants";
+import { calculateArbitrageConfidence, confidenceForTier } from "../utils/confidence";
 
-const arbitrage = new Hono();
+interface Env {
+  WALLET_ADDRESS: string;
+  X402_NETWORK: string;
+  USDC_CONTRACT: string;
+  FACILITATOR_URL: string;
+}
+
+const arbitrage = new Hono<{ Bindings: Env; Variables: { tier: string } }>();
 
 const VALID_REGIONS = ["us", "jp", "sg", "au"] as const;
 type Region = (typeof VALID_REGIONS)[number];
@@ -70,8 +78,63 @@ function calculateProfit(
   };
 }
 
+function getRiskAssessment(netMarginPct: number, shippingDays: string): string {
+  const parts = shippingDays.split("-");
+  const maxDays = parseInt(parts[parts.length - 1] ?? "0", 10);
+  if (netMarginPct < 5 || maxDays >= 18) return "high";
+  if (netMarginPct < 10 || maxDays >= 14) return "medium";
+  return "low";
+}
+
+function getExecutionTips(
+  buyRegion: string,
+  sellRegion: string,
+  netMarginPct: number,
+  shippingDays: string,
+): string[] {
+  const tips: string[] = [];
+  tips.push(`Buy from Amazon ${buyRegion.toUpperCase()} and list on Amazon ${sellRegion.toUpperCase()}`);
+  const parts = shippingDays.split("-");
+  const maxDays = parseInt(parts[parts.length - 1] ?? "0", 10);
+  if (maxDays >= 14) {
+    tips.push("Consider express shipping to reduce transit time and customer complaints");
+  }
+  if (netMarginPct > 15) {
+    tips.push("Strong margin — consider buying multiple units to amortize shipping");
+  }
+  if (netMarginPct < 8) {
+    tips.push("Thin margin — use platform_fee=0 if selling directly to improve profitability");
+  }
+  tips.push("Verify current prices before executing — data may lag real-time changes");
+  return tips;
+}
+
+function getOpportunityScore(
+  netMarginPct: number,
+  netProfitUsd: number,
+  shippingDays: string,
+  buyInStock: boolean,
+  sellInStock: boolean,
+): number {
+  let score = 50;
+  // Margin factor
+  score += Math.min(25, netMarginPct);
+  // Profit factor
+  if (netProfitUsd > 100) score += 10;
+  else if (netProfitUsd > 50) score += 5;
+  // Shipping speed
+  const parts = shippingDays.split("-");
+  const maxDays = parseInt(parts[parts.length - 1] ?? "0", 10);
+  if (maxDays <= 10) score += 10;
+  else if (maxDays >= 18) score -= 10;
+  // Stock
+  if (buyInStock && sellInStock) score += 5;
+  return Math.max(0, Math.min(100, Math.round(score)));
+}
+
 // GET /calculate
 arbitrage.get("/calculate", (c) => {
+  const tier = c.get("tier") || "basic";
   const asin = c.req.query("asin")?.toUpperCase();
   const buyFrom = c.req.query("buy_from")?.toLowerCase();
   const sellIn = c.req.query("sell_in")?.toLowerCase();
@@ -145,62 +208,73 @@ arbitrage.get("/calculate", (c) => {
   }
 
   const profit = calculateProfit(buyRegional.usd_price, sellRegional.usd_price, route, platformFeeOverride);
+  const conf = calculateArbitrageConfidence(product, profit.net_margin_pct, route.shipping_days, buyRegional.in_stock, sellRegional.in_stock);
+
+  const data: Record<string, unknown> = {
+    product: {
+      asin: product.asin,
+      title: product.title,
+      category: product.category,
+    },
+    buy: {
+      region: buyRegional.region,
+      region_name: buyRegional.region_name,
+      local_price: buyRegional.local_price,
+      currency: buyRegional.currency,
+      usd_equivalent: buyRegional.usd_price,
+    },
+    sell: {
+      region: sellRegional.region,
+      region_name: sellRegional.region_name,
+      local_price: sellRegional.local_price,
+      currency: sellRegional.currency,
+      usd_equivalent: sellRegional.usd_price,
+    },
+    costs: {
+      buy_price_usd: profit.buy_price_usd,
+      shipping_usd: profit.shipping_usd,
+      import_duty_usd: profit.import_duty_usd,
+      sales_tax_usd: profit.sales_tax_usd,
+      platform_fee_usd: profit.platform_fee_usd,
+      total_landed_cost_usd: profit.total_landed_cost_usd,
+    },
+    profit: {
+      gross_margin_usd: Math.round((profit.sell_price_usd - profit.buy_price_usd) * 100) / 100,
+      sell_price_usd: profit.sell_price_usd,
+      total_cost_usd: profit.total_landed_cost_usd,
+      net_profit_usd: profit.net_profit_usd,
+      net_margin_pct: profit.net_margin_pct,
+      verdict: profit.verdict,
+    },
+    confidence: confidenceForTier(conf, tier),
+    trade_route: {
+      shipping_days: route.shipping_days,
+      notes: route.notes,
+    },
+  };
+
+  if (tier === "pro") {
+    data["risk_assessment"] = getRiskAssessment(profit.net_margin_pct, route.shipping_days);
+    data["execution_tips"] = getExecutionTips(buyFrom, sellIn, profit.net_margin_pct, route.shipping_days);
+  }
 
   return c.json({
     meta: {
       endpoint: "/api/v1/arbitrage/calculate",
-      price_usd: "0.02",
+      tier,
+      price_usd: tier === "pro" ? "0.045" : "0.02",
       ...(platformFeeOverride !== undefined && { platform_fee_override: platformFeeOverride }),
       disclaimer: DISCLAIMER,
       data_version: API_VERSION,
       data_last_updated: DATA_LAST_UPDATED,
     },
-    data: {
-      product: {
-        asin: product.asin,
-        title: product.title,
-        category: product.category,
-      },
-      buy: {
-        region: buyRegional.region,
-        region_name: buyRegional.region_name,
-        local_price: buyRegional.local_price,
-        currency: buyRegional.currency,
-        usd_equivalent: buyRegional.usd_price,
-      },
-      sell: {
-        region: sellRegional.region,
-        region_name: sellRegional.region_name,
-        local_price: sellRegional.local_price,
-        currency: sellRegional.currency,
-        usd_equivalent: sellRegional.usd_price,
-      },
-      costs: {
-        buy_price_usd: profit.buy_price_usd,
-        shipping_usd: profit.shipping_usd,
-        import_duty_usd: profit.import_duty_usd,
-        sales_tax_usd: profit.sales_tax_usd,
-        platform_fee_usd: profit.platform_fee_usd,
-        total_landed_cost_usd: profit.total_landed_cost_usd,
-      },
-      profit: {
-        gross_margin_usd: Math.round((profit.sell_price_usd - profit.buy_price_usd) * 100) / 100,
-        sell_price_usd: profit.sell_price_usd,
-        total_cost_usd: profit.total_landed_cost_usd,
-        net_profit_usd: profit.net_profit_usd,
-        net_margin_pct: profit.net_margin_pct,
-        verdict: profit.verdict,
-      },
-      trade_route: {
-        shipping_days: route.shipping_days,
-        notes: route.notes,
-      },
-    },
+    data,
   });
 });
 
 // GET /scan
 arbitrage.get("/scan", (c) => {
+  const tier = c.get("tier") || "basic";
   const buyFromParam = c.req.query("buy_from")?.toLowerCase();
   const sellInParam = c.req.query("sell_in")?.toLowerCase();
   const categoryParam = c.req.query("category")?.toLowerCase();
@@ -241,6 +315,8 @@ arbitrage.get("/scan", (c) => {
     net_margin_pct: number;
     verdict: string;
     shipping_days: string;
+    confidence: unknown;
+    opportunity_score?: number;
   }
 
   const opportunities: Opportunity[] = [];
@@ -265,7 +341,9 @@ arbitrage.get("/scan", (c) => {
         const profit = calculateProfit(buyRegional.usd_price, sellRegional.usd_price, route, platformFeeOverride);
 
         if (profit.net_margin_pct >= minMargin) {
-          opportunities.push({
+          const conf = calculateArbitrageConfidence(product, profit.net_margin_pct, route.shipping_days, buyRegional.in_stock, sellRegional.in_stock);
+
+          const opp: Opportunity = {
             asin: product.asin,
             title: product.title,
             category: product.category,
@@ -278,7 +356,20 @@ arbitrage.get("/scan", (c) => {
             net_margin_pct: profit.net_margin_pct,
             verdict: profit.verdict,
             shipping_days: route.shipping_days,
-          });
+            confidence: confidenceForTier(conf, tier),
+          };
+
+          if (tier === "pro") {
+            opp.opportunity_score = getOpportunityScore(
+              profit.net_margin_pct,
+              profit.net_profit_usd,
+              route.shipping_days,
+              buyRegional.in_stock,
+              sellRegional.in_stock,
+            );
+          }
+
+          opportunities.push(opp);
         }
       }
     }
@@ -296,7 +387,8 @@ arbitrage.get("/scan", (c) => {
   return c.json({
     meta: {
       endpoint: "/api/v1/arbitrage/scan",
-      price_usd: "0.03",
+      tier,
+      price_usd: tier === "pro" ? "0.06" : "0.03",
       total_opportunities: totalOpportunities,
       returned: results.length,
       query_params: {

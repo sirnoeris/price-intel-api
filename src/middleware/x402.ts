@@ -29,6 +29,10 @@ interface Env {
   FACILITATOR_URL: string;
 }
 
+type TierVariables = {
+  tier: string;
+};
+
 const USDC_DECIMALS = 6;
 
 const USDC_CONTRACTS: Record<string, string> = {
@@ -55,13 +59,24 @@ function isValidBase64(str: string): boolean {
 }
 
 /**
- * x402 payment middleware for Hono on Cloudflare Workers.
+ * x402 payment middleware for Hono on Cloudflare Workers with tiered pricing.
  *
- * @param amountUSDC - Price in USDC as a decimal string, e.g. "0.005"
+ * @param basicPrice - Price for basic tier in USDC as a decimal string
+ * @param proPrice - Price for pro tier in USDC as a decimal string
  * @param description - Human-readable description of what the payment is for
  */
-export function x402(amountUSDC: string, description: string): MiddlewareHandler<{ Bindings: Env }> {
-  return async (c: Context<{ Bindings: Env }>, next) => {
+export function x402(
+  basicPrice: string,
+  proPrice: string,
+  description: string,
+): MiddlewareHandler<{ Bindings: Env; Variables: TierVariables }> {
+  return async (c: Context<{ Bindings: Env; Variables: TierVariables }>, next) => {
+    const tierHeader = c.req.header("x-tier")?.toLowerCase();
+    const tier = tierHeader === "pro" ? "pro" : "basic";
+    const amountUSDC = tier === "pro" ? proPrice : basicPrice;
+
+    c.set("tier", tier);
+
     const paymentHeader = c.req.header("X-PAYMENT");
 
     if (!paymentHeader) {
@@ -73,7 +88,7 @@ export function x402(amountUSDC: string, description: string): MiddlewareHandler
         return c.json({ error: "Server misconfigured: no wallet address" }, 500);
       }
 
-      const atomicAmount = usdToAtomicUnits(amountUSDC);
+      const resource = new URL(c.req.url).pathname + new URL(c.req.url).search;
 
       const body: X402Response = {
         x402Version: 2,
@@ -82,20 +97,37 @@ export function x402(amountUSDC: string, description: string): MiddlewareHandler
           {
             scheme: "exact",
             network,
-            maxAmountRequired: atomicAmount,
-            resource: new URL(c.req.url).pathname + new URL(c.req.url).search,
-            description,
+            maxAmountRequired: usdToAtomicUnits(basicPrice),
+            resource,
+            description: `${description} (Basic tier)`,
             mimeType: "application/json",
             payTo: walletAddress,
             maxTimeoutSeconds: 60,
             asset: usdcContract,
             extra: {
               name: "price-intel-api",
-              version: "1.0.0",
+              version: "1.1.0",
+            },
+          },
+          {
+            scheme: "exact",
+            network,
+            maxAmountRequired: usdToAtomicUnits(proPrice),
+            resource,
+            description: `${description} (Pro tier — includes confidence scores, analytics, and actionable insights)`,
+            mimeType: "application/json",
+            payTo: walletAddress,
+            maxTimeoutSeconds: 60,
+            asset: usdcContract,
+            extra: {
+              name: "price-intel-api",
+              version: "1.1.0",
             },
           },
         ],
       };
+
+      const atomicAmount = usdToAtomicUnits(amountUSDC);
 
       return c.json(body, 402, {
         "X-PAYMENT-NETWORK": network,

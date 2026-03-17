@@ -1,10 +1,49 @@
 import { Hono } from "hono";
 import { productsData, Product } from "../data/products";
 import { API_VERSION, DATA_LAST_UPDATED, DISCLAIMER } from "../constants";
+import { calculateProductConfidence, confidenceForTier } from "../utils/confidence";
 
-const products = new Hono();
+interface Env {
+  WALLET_ADDRESS: string;
+  X402_NETWORK: string;
+  USDC_CONTRACT: string;
+  FACILITATOR_URL: string;
+}
+
+const products = new Hono<{ Bindings: Env; Variables: { tier: string } }>();
+
+function getMarketPosition(product: Product, allProducts: Product[]): string {
+  const catProducts = allProducts.filter((p) => p.category === product.category);
+  const avgPrice = catProducts.reduce((sum, p) => sum + p.current_price, 0) / catProducts.length;
+  if (product.current_price > avgPrice * 1.3) return "premium";
+  if (product.current_price < avgPrice * 0.7) return "budget";
+  return "mid-range";
+}
+
+function getBuySignal(product: Product): string {
+  const prices = product.price_history.map((p) => p.price);
+  const recent = prices.slice(-4);
+  const avg90d = recent.reduce((sum, p) => sum + p, 0) / recent.length;
+  const currentVsAvg = ((product.current_price - avg90d) / avg90d) * 100;
+  if (currentVsAvg < -10) return "strong_buy";
+  if (currentVsAvg < -3) return "buy";
+  if (currentVsAvg > 5) return "wait";
+  return "hold";
+}
+
+function enrichProduct(product: Product, tier: string) {
+  const conf = calculateProductConfidence(product);
+  const base: Record<string, unknown> = { ...product };
+  base["confidence"] = confidenceForTier(conf, tier);
+  if (tier === "pro") {
+    base["market_position"] = getMarketPosition(product, productsData);
+    base["buy_signal"] = getBuySignal(product);
+  }
+  return base;
+}
 
 products.get("/", (c) => {
+  const tier = c.get("tier") || "basic";
   const asin = c.req.query("asin");
   const query = c.req.query("q") || c.req.query("query");
   const category = c.req.query("category")?.toLowerCase();
@@ -31,14 +70,15 @@ products.get("/", (c) => {
     return c.json({
       meta: {
         endpoint: "/api/v1/products",
-        price_usd: "0.005",
+        tier,
+        price_usd: tier === "pro" ? "0.012" : "0.005",
         total_results: 1,
         query_params: { asin },
         disclaimer: DISCLAIMER,
         data_version: API_VERSION,
         data_last_updated: DATA_LAST_UPDATED,
       },
-      data: [product],
+      data: [enrichProduct(product, tier)],
     });
   }
 
@@ -101,7 +141,8 @@ products.get("/", (c) => {
   return c.json({
     meta: {
       endpoint: "/api/v1/products",
-      price_usd: "0.01",
+      tier,
+      price_usd: tier === "pro" ? "0.025" : "0.01",
       total_results: totalResults,
       returned: results.length,
       query_params: {
@@ -118,7 +159,7 @@ products.get("/", (c) => {
       data_version: API_VERSION,
       data_last_updated: DATA_LAST_UPDATED,
     },
-    data: results,
+    data: results.map((p) => enrichProduct(p, tier)),
   });
 });
 
